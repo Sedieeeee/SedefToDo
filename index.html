@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Einkaufsliste</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    // Service Worker Registrierung
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js")
+        .then(() => console.log("Service Worker registriert"))
+        .catch((err) => console.error("Fehler beim Registrieren des Service Workers:", err));
+    }
+  </script>
+
+  <script>
+    // Funktion zum Hinzufügen einer Aufgabe
+    function einfuegenAufgabe() {
+      var neueAufgabe = document.createElement("li");
+      var aufgabenText = document.getElementById("Feld").value;
+
+      if (aufgabenText.trim() === "") return; // Leere Aufgaben verhindern
+
+      neueAufgabe.textContent = aufgabenText;
+
+      // Entfernen der Aufgabe bei Klick
+      neueAufgabe.addEventListener("click", function() {
+        this.remove();
+      });
+
+      document.getElementById("Liste").appendChild(neueAufgabe);
+      document.getElementById("Feld").value = ""; // Eingabefeld leeren
+    }
+  </script>
+  
+</head>
+<body>
+  <h2>To-Do Liste</h2>
+  <input type="text" id="Feld" placeholder="Aufgabe eintippen" />
+  <br />
+  <input type="button" value="Aufgabe hinzufügen" onclick="einfuegenAufgabe();" />
+  
+  <ul id="Liste">Heute erledigen</ul> <!-- Verwendung einer ungeordneten Liste -->
+</body>
+</html>
